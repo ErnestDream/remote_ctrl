@@ -12,10 +12,30 @@ Un servidor local ligero y una interfaz web diseñada para controlar tu computad
 * **Interfaz de Usuario:** Diseño responsivo.
 * **Ejecución Silenciosa:** Script de inicio automático para correr en segundo plano sin ventanas molestas de consola.
 
-## 📋 Requisitos Previos
+## Requisitos previos
 
 * **Sistema Operativo:** Windows 10 / 11.
 * **Python:** Versión 3.6 o superior.
 * ** --> IMPORTANTE <--** Estar conectado a la misma LAN que el otro dispositivo.
 
-* 
+## Instalación
+1. **Clonar el repositorio**
+2. Instalar flask pyautogui con:
+```bash
+pip install flask pyautogui
+```
+3. Organizar la siguiente estructura:
+```bash
+remote_ctrl/
+├── servidor.py
+└── templates/
+    └── index.html
+```
+4. Abrir el puerto 5000:
+```bash
+netsh advfirewall firewall add rule name="Control_Remoto" dir=in action=allow protocol=TCP localport=5000
+```
+5. Encuentra la IP de tu computadora y accede:
+```bash
+http://<IP>:5000
+```
