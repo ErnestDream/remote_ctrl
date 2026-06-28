@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SYS://REMOTE_CTRL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --bg-color: #000c00; /* Fondo casi negro, toque verde */
+            --terminal-green: #00ff41; /* Verde neón clásico */
+            --dark-green: #00882d; /* Verde más oscuro para sombras */
+            --danger-red: #ff3333;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--terminal-green);
+            font-family: 'VT323', monospace; /* Fuente de terminal */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--terminal-green);
+        }
+
+        h1::after {
+            content: '_'; /* Cursor simulado */
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        button {
+            background-color: var(--bg-color);
+            color: var(--terminal-green);
+            border: 2px solid var(--terminal-green);
+            font-family: 'VT323', monospace;
+            padding: 20px 0;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.1s ease-in-out;
+            text-transform: uppercase;
+            box-shadow: 0 0 5px var(--dark-green);
+        }
+
+        /* Efecto de 'parpadeo' al presionar, típico de terminal */
+        button:active {
+            background-color: var(--terminal-green);
+            color: var(--bg-color);
+            transform: scale(0.98);
+            box-shadow: 0 0 20px var(--terminal-green);
+        }
+
+        .span-2 { grid-column: span 2; }
+        .span-3 { grid-column: span 3; }
+
+        /* Estilo para los comandos críticos (apagado/suspensión) */
+        .system-critical {
+            border-color: var(--danger-red);
+            color: var(--danger-red);
+            box-shadow: 0 0 5px #ff0000;
+        }
+        
+        .system-critical:active {
+            background-color: var(--danger-red);
+            color: white;
+            box-shadow: 0 0 20px var(--danger-red);
+        }
+
+        .power-section {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 450px;
+            border: 2px solid var(--terminal-green);
+            padding: 15px;
+            box-sizing: border-box;
+            background: rgba(0, 255, 65, 0.05); /* Ligerísimo tinte verde */
+        }
+
+        .power-section h3 {
+            margin-top: 0;
+            font-size: 20px;
+            text-shadow: 0 0 5px var(--terminal-green);
+        }
+
+        .power-section label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .power-section input {
+            width: 70px;
+            padding: 10px;
+            font-size: 20px;
+            background: var(--bg-color);
+            color: var(--terminal-green);
+            border: 1px solid var(--terminal-green);
+            font-family: 'VT323', monospace;
+            text-align: center;
+        }
+
+        /* Quitar flechas por defecto del input number en webkit */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SYS://REMOTE_CTRL</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        :root {
+            --bg-color: #000c00;
+            --terminal-green: #00ff41;
+            --dark-green: #00882d;
+            --danger-red: #ff3333;
+            --warning-yellow: #ffb000;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--terminal-green);
+            font-family: 'VT323', monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--terminal-green);
+        }
+
+        h1::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 15px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .grid-1 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            width: 100%;
+        }
+
+        button {
+            background-color: var(--bg-color);
+            color: var(--terminal-green);
+            border: 2px solid var(--terminal-green);
+            font-family: 'VT323', monospace;
+            padding: 20px 0;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.1s ease-in-out;
+            text-transform: uppercase;
+            box-shadow: 0 0 5px var(--dark-green);
+        }
+
+        button:active {
+            background-color: var(--terminal-green);
+            color: var(--bg-color);
+            transform: scale(0.98);
+            box-shadow: 0 0 20px var(--terminal-green);
+        }
+
+        .system-critical {
+            border-color: var(--danger-red);
+            color: var(--danger-red);
+            box-shadow: 0 0 5px #ff0000;
+        }
+        
+        .system-critical:active {
+            background-color: var(--danger-red);
+            color: white;
+            box-shadow: 0 0 20px var(--danger-red);
+        }
+
+        .system-warning {
+            border-color: var(--warning-yellow);
+            color: var(--warning-yellow);
+            box-shadow: 0 0 5px var(--warning-yellow);
+        }
+
+        .system-warning:active {
+            background-color: var(--warning-yellow);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px var(--warning-yellow);
+        }
+
+        .power-section {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 450px;
+            border: 2px solid var(--terminal-green);
+            padding: 15px;
+            box-sizing: border-box;
+            background: rgba(0, 255, 65, 0.05);
+            min-height: 220px; /* Mantiene el tamaño para que no salte la pantalla al cambiar vistas */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .power-section h3 {
+            margin-top: 0;
+            font-size: 20px;
+            text-align: center;
+            text-shadow: 0 0 5px var(--terminal-green);
+        }
+
+        .power-section input {
+            width: 80px;
+            padding: 10px;
+            font-size: 24px;
+            background: var(--bg-color);
+            color: var(--terminal-green);
+            border: 1px solid var(--terminal-green);
+            font-family: 'VT323', monospace;
+            text-align: center;
+        }
+
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>SYS://REMOTE_CTRL</h1>
+
+    <div class="grid-3">
+        <button onclick="sendCmd('prev')">&lt;&lt;</button>
+        <button onclick="sendCmd('play_pause')">PLAY/PAUSE</button>
+        <button onclick="sendCmd('next')">&gt;&gt;</button>
+    </div>
+
+    <div class="grid-2">
+        <button onclick="sendCmd('vol_down')">VOL [ - ]</button>
+        <button onclick="sendCmd('vol_up')">VOL [ + ]</button>
+    </div>
+
+    <div class="power-section">
+        
+        <div id="view-main">
+            <h3>ACCIÓN DE SISTEMA</h3>
+            <div class="grid-1">
+                <button onclick="switchView('view-suspend')" class="system-warning">[ P_STATE: SUSPEND ]</button>
+                <button onclick="switchView('view-shutdown')" class="system-critical">[ PWR: OFF ]</button>
+            </div>
+            <div style="margin-top: 15px; text-align: center;">
+                <span onclick="sendCmd('cancel_shutdown')" style="color: #555; text-decoration: underline; cursor: pointer;">ABORT_TIMER_TASK</span>
+            </div>
+        </div>
+
+        <div id="view-suspend" class="hidden">
+            <h3 style="color: var(--warning-yellow); text-shadow: 0 0 5px var(--warning-yellow);">¿CONFIRMAR SUSPENSIÓN?</h3>
+            <div class="grid-2">
+                <button class="system-warning" onclick="executeSuspend()">[ OK ]</button>
+                <button onclick="switchView('view-main')">[ CANCEL ]</button>
+            </div>
+        </div>
+
+        <div id="view-shutdown" class="hidden">
+            <h3 style="color: var(--danger-red); text-shadow: 0 0 5px var(--danger-red);">OPCIONES DE APAGADO</h3>
+            <div class="grid-1">
+                <button class="system-critical" onclick="executeShutdown(0)">[ INMEDIATO ]</button>
+                <div class="grid-2">
+                    <button class="system-warning" onclick="switchView('view-timer')">[ TIMER ]</button>
+                    <button onclick="switchView('view-main')">[ CANCEL ]</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-timer" class="hidden">
+            <h3>TIEMPO PARA APAGADO (MIN)</h3>
+            <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+                <input type="number" id="mins" value="30" min="1">
+            </div>
+            <div class="grid-2">
+                <button class="system-critical" onclick="scheduleShutdown()">[ START ]</button>
+                <button onclick="switchView('view-shutdown')">[ CANCEL ]</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Enviar comando al servidor de Python
+        function sendCmd(accion, valor = 0) {
+            fetch('/comando', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ accion: accion, valor: valor })
+            }).catch(err => {
+                console.error("CONN ERROR: HOST_UNREACHABLE");
+            });
+        }
+
+        // Cambiar entre vistas ocultando y mostrando divs
+        function switchView(viewId) {
+            document.getElementById('view-main').classList.add('hidden');
+            document.getElementById('view-suspend').classList.add('hidden');
+            document.getElementById('view-shutdown').classList.add('hidden');
+            document.getElementById('view-timer').classList.add('hidden');
+            
+            document.getElementById(viewId).classList.remove('hidden');
+        }
+
+        // Ejecutar suspensión y volver al menú principal
+        function executeSuspend() {
+            sendCmd('suspend');
+            switchView('view-main');
+        }
+
+        // Ejecutar apagado y volver al menú principal
+        function executeShutdown(mins) {
+            sendCmd('shutdown', mins);
+            switchView('view-main');
+            if(mins > 0) {
+                console.log(`PWR_OFF_SEQ::INIT -> T-${mins}m`);
+            }
+        }
+
+        // Leer el valor del input e iniciar el temporizador
+        function scheduleShutdown() {
+            const mins = document.getElementById('mins').value;
+            executeShutdown(mins);
+        }
+    </script>
+</body>
+</html>
